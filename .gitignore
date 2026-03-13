@@ -5,8 +5,8 @@ __pycache__/
 *.pyo
 .pytest_cache/
 
-# Environment variables — never commit this
-.env
+# Environment variables
+.env*
 
 # Alembic
 alembic/versions/*.pyc
