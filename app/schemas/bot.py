@@ -28,7 +28,7 @@ class BotResponse(BaseModel):
     created_at: datetime
 
 
-class BotDetailResponse(BaseModel):
+class BotDetailResponse(BotResponse):
     # Extend BotResponse and adds code
     # Only used for the owner viewing their own bot
     code: str
