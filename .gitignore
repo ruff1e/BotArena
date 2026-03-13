@@ -1,0 +1,18 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment variables — never commit this
+.env
+
+# Alembic
+alembic/versions/*.pyc
+
+# OS
+.DS_Store
+
+# VSCode
+.vscode/
