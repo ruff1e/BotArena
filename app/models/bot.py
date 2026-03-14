@@ -5,6 +5,11 @@ from sqlalchemy import String, Integer, DateTime, Text, ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 import enum
+from typing import TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from app.models.user import User
 
 class Language(str, enum.Enum):
     python = "python"

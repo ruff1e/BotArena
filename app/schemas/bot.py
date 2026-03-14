@@ -29,7 +29,7 @@ class BotResponse(BaseModel):
 
 
 class BotDetailResponse(BotResponse):
-    # Extend BotResponse and adds code
+    # Extends BotResponse and adds code
     # Only used for the owner viewing their own bot
     code: str
 
