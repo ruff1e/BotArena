@@ -11,7 +11,7 @@ class Language(str, Enum):
 
 class CreateBotRequest(BaseModel):
     name: str = Field(min_length=1, max_length=50)
-    Language: Language
+    language: Language
     code: str = Field(min_length=10)
 
 
@@ -20,7 +20,7 @@ class BotResponse(BaseModel):
 
     id: str
     name: str
-    Language: Language
+    language: Language
     elo_rating: int
     win_count: int
     loss_count: int
