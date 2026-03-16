@@ -1,5 +1,4 @@
 # app/engine/sandbox.py
-# same as test_tictactoe.py
 import docker
 import tempfile
 import os

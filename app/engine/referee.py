@@ -1,5 +1,4 @@
 # app/engine/referee.py
-# same as test_tictactoe and sandbox
 
 from app.engine.sandbox import get_bot_move
 from app.engine.games.tictactoe import initial_state, is_valid_move, apply_move
