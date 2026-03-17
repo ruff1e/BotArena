@@ -3,6 +3,7 @@ import json
 from datetime import datetime, timezone
 
 from celery import Celery
+import redis as redis_lib
 
 from app.config import settings
 from app.database import SessionLocal
@@ -56,7 +57,6 @@ def run_match_task(match_id: str):
 
         # The referee calls this after every valid turn.
         # It saves the turn to the database and publishes the state to a Redis pub/sub channel for live WebSocket viewers.
-        import redis as redis_lib
         redis_client = redis_lib.from_url(settings.redis_url)
 
         def on_turn(turn_data: dict):
@@ -87,6 +87,7 @@ def run_match_task(match_id: str):
             bot_a_language=bot_a.language.value,
             bot_b_code=bot_b.code,
             bot_b_language=bot_b.language.value,
+            game_type=match.game_type.value,
             on_turn=on_turn,
         )
 
@@ -122,7 +123,7 @@ def run_match_task(match_id: str):
 
         db.commit()
 
-        # Publish a final message so WebSocket clients know the match ended.
+        # Publish a final message so WebSocket clients know that the match ended.
         redis_client.publish(f"match:{match_id}", json.dumps({
             "event": "match_over",
             "winner": winner,

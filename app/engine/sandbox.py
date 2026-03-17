@@ -41,6 +41,8 @@ def get_bot_move(language: str, code: str, state_dict: dict, timeout_seconds: in
 
     os.chmod(temp_dir, 0o755)
 
+    container = None
+
     try:
         # Write the bot's source code to a file.
         code_path = os.path.join(temp_dir, config["filename"])
@@ -118,7 +120,8 @@ def get_bot_move(language: str, code: str, state_dict: dict, timeout_seconds: in
     finally:
         # Always clean up
         try:
-            container.remove(force=True)
+            if container is not None:
+                container.remove(force=True)
         except Exception:
             pass
 

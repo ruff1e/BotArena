@@ -1,7 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 from enum import Enum
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Any
 from app.schemas.bot import BotResponse
 
 
@@ -35,4 +35,15 @@ class MatchResponse(BaseModel):
     created_at: datetime
     finished_at: Optional[datetime] = None
 
-    
+
+
+class TurnResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    match_id: str
+    turn_number: int
+    player: str
+    move: Any
+    state_snapshot: Any
+    created_at: datetime

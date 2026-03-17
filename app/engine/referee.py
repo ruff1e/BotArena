@@ -1,16 +1,17 @@
 # app/engine/referee.py
 
 from app.engine.sandbox import get_bot_move
-from app.engine.games.tictactoe import initial_state, is_valid_move, apply_move
+from app.engine.games import get_game
 
 
-def run_match(bot_a_code: str, bot_a_language: str, bot_b_code: str, bot_b_language: str, on_turn=None) -> dict:
+def run_match(bot_a_code: str, bot_a_language: str, bot_b_code: str, bot_b_language: str, game_type: str = "tictactoe", on_turn=None) -> dict:
     # on_turn is an optional callback function the worker will pass in later.
     # After each turn it gets called with the turn data so the worker can
     # save it to the database and broadcast it via WebSocket.
     # During testing just pass None and ignore it.
 
-    state = initial_state()
+    game = get_game(game_type)
+    state = game.initial_state()
 
     # Map player letters to their code and language
     bots = {
@@ -42,14 +43,14 @@ def run_match(bot_a_code: str, bot_a_language: str, bot_b_code: str, bot_b_langu
 
         # Validate the move before applying it.
         # If a bot sends back a valid JSON but an illegal move it loses immediately.
-        if not is_valid_move(state, move):
+        if not game.is_valid_move(state, move):
             print(f"[referee] Player {current_player} made an invalid move: {move}")
             winner = "B" if current_player == "A" else "A"
             disqualified = True
             break
 
         # Apply the move and get the new state.
-        state = apply_move(state, move)
+        state = game.apply_move(state, move)
         turn_number += 1
 
         # If a worker callback was provided, call it with turn data.
