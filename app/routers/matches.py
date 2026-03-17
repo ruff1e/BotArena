@@ -56,7 +56,7 @@ def list_matches(bot_id: UUID = None, limit: int = 20, offset: int = 0, db: Sess
     query = db.query(Match)
 
     if bot_id:
-        query = query.filter((Match.bot_a_id == bot_id) | (Match.bot_b_id == bot_id))
+        query = query.filter((Match.bot_a_id == bot_id) | (Match.bot_b_id == str(bot_id)))
     return (
         query.order_by(Match.created_at.desc())
         .offset(offset)
@@ -68,7 +68,7 @@ def list_matches(bot_id: UUID = None, limit: int = 20, offset: int = 0, db: Sess
 @router.get("/{match_id}", response_model=MatchResponse)
 def get_match(match_id: UUID, db: Session = Depends(get_db)):
 
-    match = db.query(Match).filter(Match.id == match_id).first()
+    match = db.query(Match).filter(Match.id == str(match_id)).first()
 
     if not match:
         raise HTTPException(status_code=404, detail="Match not found")
@@ -78,7 +78,7 @@ def get_match(match_id: UUID, db: Session = Depends(get_db)):
 @router.get("/{match_id}/replay", response_model=list[TurnResponse])
 def get_replay(match_id: UUID, db: Session = Depends(get_db)):
 
-    match = db.query(Match).filter(Match.id == match_id).first()
+    match = db.query(Match).filter(Match.id == str(match_id)).first()
 
     if not match:
         raise HTTPException(status_code=404, detail="Match not found")
@@ -87,7 +87,7 @@ def get_replay(match_id: UUID, db: Session = Depends(get_db)):
 
     return (
         db.query(MatchTurn)
-        .filter(MatchTurn.match_id == match_id)
+        .filter(MatchTurn.match_id == str(match_id))
         .order_by(MatchTurn.turn_number.asc())
         .all()
     )

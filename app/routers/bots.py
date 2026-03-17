@@ -56,7 +56,7 @@ def get_bots(db: Session = Depends(get_db), user: User = Depends(get_current_use
 @router.get("/{bot_id}", response_model=BotResponse, status_code=200)
 def get_bot(bot_id: str, db: Session = Depends(get_db)):
     
-    bot =  db.query(Bot).filter(Bot.id == bot_id).first()
+    bot =  db.query(Bot).filter(Bot.id == str(bot_id)).first()
 
     #if the bot does not exist, raise 404
     if not bot:
@@ -73,7 +73,7 @@ def get_bot(bot_id: str, db: Session = Depends(get_db)):
 @router.delete("/{bot_id}", response_model=None, status_code=204)
 def delete_bot(bot_id: str, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
 
-    bot = db.query(Bot).filter(Bot.id == bot_id).first()
+    bot = db.query(Bot).filter(Bot.id == str(bot_id)).first()
 
     #check if the bot with that id exists
     if not bot:
