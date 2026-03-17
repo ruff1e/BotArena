@@ -178,7 +178,7 @@ pytest tests/
 - [x] Phase 2  — Database schema & models
 - [x] Phase 3  — Authentication API
 - [x] Phase 4  — Bot management API
-- [x] Phase 5  — Game engine (Tic-Tac-Toe)
+- [x] Phase 5  — Game engine(s)
 - [x] Phase 6  — Docker sandbox
 - [x] Phase 7  — Referee
 - [x] Phase 8  — Celery worker
