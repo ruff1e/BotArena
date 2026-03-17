@@ -50,13 +50,21 @@ def create_match(payload: CreateMatchRequest, db: Session = Depends(get_db), cur
 
 
 @router.get("/", response_model=list[MatchResponse])
-def list_matches(bot_id: UUID = None, limit: int = 20, offset: int = 0, db: Session = Depends(get_db) ):
+def list_matches(bot_id: UUID = None, user_id: UUID = None, limit: int = 20, offset: int = 0, db: Session = Depends(get_db) ):
 
 
     query = db.query(Match)
 
     if bot_id:
         query = query.filter((Match.bot_a_id == bot_id) | (Match.bot_b_id == str(bot_id)))
+
+    if user_id:
+        user_bot_ids = [
+            b.id
+            for b in db.query(Bot.id).filter(Bot.user_id == str(user_id)).all()
+        ]
+        query = query.filter((Match.bot_a_id.in_(user_bot_ids))| (Match.bot_b_id.in_(user_bot_ids)))
+
     return (
         query.order_by(Match.created_at.desc())
         .offset(offset)
