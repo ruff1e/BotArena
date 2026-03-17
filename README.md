@@ -11,7 +11,7 @@ It enforces game rules, tracks ELO ratings, and streams live match updates via W
 
 | Layer         | Technology                                      |
 |---------------|-------------------------------------------------|
-| Language      | Python 3.12+                                    |
+| Language      | Python 3.12.3                                   |
 | API Framework | FastAPI                                         |
 | Task Queue    | Celery                                          |
 | Broker/Cache  | Redis                                           |
