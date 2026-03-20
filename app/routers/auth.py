@@ -45,7 +45,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
 
 
 
-@router.post("/login", response_model=TokenResponse)
+@router.post("/login", response_model=TokenResponse, status_code=200)
 def login(request: LoginRequest, db: Session = Depends(get_db)):
 
     #find the user with their username
